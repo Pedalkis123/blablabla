@@ -1,1 +1,600 @@
-([[This file was protected with MoonSec V3]]):gsub('.+', (function(a) _rOuyPaYdZZKm = a; end)); return(function(u,...)local r;local b;local f;local o;local d;local l;local e=24915;local n=0;local t={};while n<417 do n=n+1;while n<0x3e2 and e%0x21a0<0x10d0 do n=n+1 e=(e-147)%23552 local a=n+e if(e%0x179a)<=0xbcd then e=(e*0xf4)%0x80de while n<0x3b0 and e%0x1c7e<0xe3f do n=n+1 e=(e+419)%15682 local l=n+e if(e%0x2150)<=0x10a8 then e=(e+0x3f7)%0x6b4e local e=18800 if not t[e]then t[e]=0x1 b=tonumber;end elseif e%2~=0 then e=(e+0x369)%0x6adc local e=9768 if not t[e]then t[e]=0x1 r="\4\8\116\111\110\117\109\98\101\114\105\73\111\120\122\69\97\75\0\6\115\116\114\105\110\103\4\99\104\97\114\115\68\108\119\85\104\71\85\0\6\115\116\114\105\110\103\3\115\117\98\122\112\109\104\116\109\111\87\0\6\115\116\114\105\110\103\4\98\121\116\101\107\89\102\88\95\75\109\119\0\5\116\97\98\108\101\6\99\111\110\99\97\116\84\85\89\97\68\108\70\65\0\5\116\97\98\108\101\6\105\110\115\101\114\116\108\82\110\95\68\122\99\74\5";end else e=(e+0xf7)%0x752c n=n+1 local e=59301 if not t[e]then t[e]=0x1 end end end elseif e%2~=0 then e=(e+0x28)%0xa57a while n<0x138 and e%0x3df6<0x1efb do n=n+1 e=(e-265)%28143 local r=n+e if(e%0x4560)<=0x22b0 then e=(e-0x314)%0x2b5c local e=65092 if not t[e]then t[e]=0x1 l=getfenv and getfenv();end elseif e%2~=0 then e=(e*0x20)%0x80cb local e=81542 if not t[e]then t[e]=0x1 d=function(d)local e=0x01 local function t(n)e=e+n return d:sub(e-n,e-0x01)end while true do local n=t(0x01)if(n=="\5")then break end local e=f.byte(t(0x01))local e=t(e)if n=="\2"then e=o.iIoxzEaK(e)elseif n=="\3"then e=e~="\0"elseif n=="\6"then l[e]=function(e,n)return u(8,nil,u,n,e)end elseif n=="\4"then e=l[e]elseif n=="\0"then e=l[e][t(f.byte(t(0x01)))];end local n=t(0x08)o[n]=e end end end else e=(e*0x379)%0x2319 n=n+1 local e=76691 if not t[e]then t[e]=0x1 l=(not l)and _ENV or l;end end end else e=(e*0x2ef)%0x50e1 n=n+1 while n<0x364 and e%0x474a<0x23a5 do n=n+1 e=(e*736)%43658 local l=n+e if(e%0x37ac)>=0x1bd6 then e=(e+0x2b9)%0x4ecf local e=4359 if not t[e]then t[e]=0x1 o={};end elseif e%2~=0 then e=(e*0x229)%0xa49a local e=39863 if not t[e]then t[e]=0x1 end else e=(e+0x3ce)%0x5a4d n=n+1 local e=22696 if not t[e]then t[e]=0x1 f=string;end end end end end e=(e*68)%6379 end d(r);local e={};for n=0x0,0xff do local t=o.sDlwUhGU(n);e[n]=t;e[t]=n;end local function c(n)return e[n];end local f=(function(a,d)local r,t=0x01,0x10 local n={{},{},{}}local l=-0x01 local e=0x01 local f=a while true do n[0x03][o.zpmhtmoW(d,e,(function()e=r+e return e-0x01 end)())]=(function()l=l+0x01 return l end)()if l==(0x0f)then l=""t=0x000 break end end local l=#d while e<l+0x01 do n[0x02][t]=o.zpmhtmoW(d,e,(function()e=r+e return e-0x01 end)())t=t+0x01 if t%0x02==0x00 then t=0x00 o.lRn_DzcJ(n[0x01],(c((((n[0x03][n[0x02][0x00]]or 0x00)*0x10)+(n[0x03][n[0x02][0x01]]or 0x00)+f)%0x100)));f=a+f;end end return o.TUYaDlFA(n[0x01])end);d(f(233,"&/AVhvyrjQ l{P-Z/{"));d(f(139,"&cq_EtmM2-bvf!?CMtC=!qE2vvqMbcLCqcCmMf?-mcvqqfb{_M-cC2mm?ccq22m2!AE_f__22qTb-b?mtb?vECvb?bm_E_vbqmbJcvMc1Mt!CRmbbC__b2fE_Cqc-MFbMmCSt?McE?vM_Cb_c!m?j?t2Hqm??tqCva!qEvq--qcb2_-tMc!?tE!fE-vCcEbfc---?_mm!qCbMMt_vb_?bfc--!CC2M?-tC!?Efbqqm-fqfM!?-MvCMz227EEf2_vfc_cb-!C-_C-McCtt!?kEvv-f!Eqqb2- m2m?-mt?tEbbvq-2fcf_cbttqComvfb_MfC_f2?qM_bv_-E^EM!C_mm!qEfvbqbb2qqMqc_MJC-EvMn?bf?_*bmqt-_b-2!CvMq!2ECff_v-tcE-f?fM-C2Mb2qC-!!Evfqq2-CcfM-CtmqfCt?vw_2bt!qE2q2-C/v2tOKtq?__vb!qMv2ct2_b!qEkmm!?-tMfbt*vvcm2cCMM2ccMb!tC-Mqtlv-Ecbbvf-q>!2tCbMq?!Ef!_Ec-Cc!2mk?qq"));local e=(-32248+(function()local d,e=0,1;(function(t,e,n)e(e(e,e,e)and n(n,t,e),e(t,t and n,n and t),e(n and e,e,n and t))end)(function(l,t,n)if d>310 then return n end d=d+1 e=(e-697)%20750 if(e%210)<105 then e=(e-139)%8389 return n(t(t,l,n),t(n,l,t)and n(n,n,l),n(t,t,n and t)and t(n,l,t))else return l end return l end,function(n,l,t)if d>429 then return l end d=d+1 e=(e-492)%348 if(e%1658)<=829 then e=(e-144)%32521 return t(l(n and n,t,l and t),n(l,t,n)and t(l,n,n and t),t(n,t,l and l))else return n end return n end,function(t,l,n)if d>424 then return t end d=d+1 e=(e*179)%44868 if(e%472)>=236 then e=(e*114)%25816 return n else return n(l(l and t,l,t),l(t,l,t),n(n,l,l))end return t(t(l,n,n)and n(n,n,l),n(l,n,t),t(t,n,t))end)return e;end)())local ee=(getfenv)or(function()return _ENV end);local c=o.SZRJdATL or o.eJTgBZdq;local d=3;local ne=1;local l=2;local a=4;local function k(s,...)local r=f(e,"RIu%qtPh47W1(H.z4%z4hqz?Pz6IPq.Zt(ut(%%z1WI1W7u%71N1W4uu7tIP41I%PqyIh4zqhIzPqtzqh6.Wzh17.(P4.q(4ts((qq(%GPhhz%1uIHWz.u7hIt7(w(7tz.4Hkhhtz.P1z%P.zTtH.uPq7Wq1H%qH41u417%qWH%qWzu7Wz.7PP.%t1z1hI.Ihq(tPhz%h.zIhqzqu1.tttH7tW7htU(z%H1(%7(uzW1q%7WI1z%z1q%KW(hiI47q{(tzz74q4zIt4qnoh(th.P%z.IPI1qqI1t%(W.uW7h%tqh.h%(14%qSq7qII7h(Z4uYI4Zztu(zzPtz%I(.4PPHzPQ(HqhHqqI1(zq(h%t1(u(PD67Whu%7.zz4Hxhq9zuq17hIW4(j44qP(.1t7H4P%.btW(Hq.(%H1t4Hgq((4W1uIW7IH%q1Bu(W4uqW.I(74Iq7oIz44 q4gzHh4zqh#z.4%.qPAH(t7Hqtb((tWH.qp1(%414%LW(u4(W%47(I47qIP4( 74qbth(z(hPz<P(.4PW.KtHH4tqHpq((4qq(I%(14%q(uquW4uqW:uu74Iq7bI.7m=q4Iz(hzzqhr.(44zqPkHHt4Htt^(zq4HPq11(%11q%uW(u4WquF1PI47tI:4zl44ql#h(zHhqzxP(.4Pq.ut(H4P(HLq((4qt(G%H14%q(hu(W4uqWII(74Iq");local n=0;o.AToFEaPF(function()o.bitdPYGb()n=n+1 end)local function e(t,e)if e then return n end;n=t+n;end local t,n,h=u(0,u,e,r,o.kYfX_Kmw);local function f()local t,n=o.kYfX_Kmw(r,e(1,3),e(5,6)+2);e(2);return(n*256)+t;end;local z=true;local z=0 local function k()local l=n();local e=n();local d=1;local l=(t(e,1,20)*(2^32))+l;local n=t(e,21,31);local e=((-1)^t(e,32));if(n==0)then if(l==z)then return e*0;else n=1;d=0;end;elseif(n==2047)then return(l==0)and(e*(1/0))or(e*(0/0));end;return o.qQtlwLZQ(e,n-1023)*(d+(l/(2^52)));end;local m=n;local function _(n)local t;if(not n)then n=m();if(n==0)then return'';end;end;t=o.zpmhtmoW(r,e(1,3),e(5,6)+n-1);e(n)local e=""for n=(1+z),#t do e=e..o.zpmhtmoW(t,n,n)end return e;end;local z=#o.bkpKw_sP(b('\49.\48'))~=1 local e=n;local function y(...)return{...},o.jPFGSwkQ('#',...)end local function p()local c={};local e={};local b={};local u={b,c,nil,e};local e=n()local r={}for l=1,e do local t=h();local n;if(t==2)then n=(h()~=#{});elseif(t==0)then local e=k();if z and o.DoDyprGS(o.bkpKw_sP(e),'.(\48+)$')then e=o.xbtmV_Sf(e);end n=e;elseif(t==3)then n=_();end;r[l]=n;end;for e=1,n()do c[e-(#{1})]=p();end;u[3]=h();for u=1,n()do local e=h();if(t(e,1,1)==0)then local o=t(e,2,3);local c=t(e,4,6);local e={f(),f(),nil,nil};if(o==0)then e[d]=f();e[a]=f();elseif(o==#{1})then e[d]=n();elseif(o==s[2])then e[d]=n()-(2^16)elseif(o==s[3])then e[d]=n()-(2^16)e[a]=f();end;if(t(c,1,1)==1)then e[l]=r[e[l]]end if(t(c,2,2)==1)then e[d]=r[e[d]]end if(t(c,3,3)==1)then e[a]=r[e[a]]end b[u]=e;end end;return u;end;local function k(t,e,n)local l=e;local l=n;return b(o.DoDyprGS(o.DoDyprGS(({o.AToFEaPF(t)})[2],e),n))end local function j(z,e,h)local function j(...)local f,j,s,g,b,n,r,k,_,m,p,t;local e=0;while-1<e do if 3>e then if e>0 then if e~=0 then for t=14,76 do if 1<e then n=-41;r=-1;break;end;s=u(6,28,3,63,z);b=y g=0;break;end;else n=-41;r=-1;end else f=u(6,56,1,30,z);j=u(6,11,2,5,z);end else if e<5 then if e>3 then m=o.jPFGSwkQ('#',...)-1;p={};else k={};_={...};end else if 4<e then repeat if 5~=e then e=-2;break;end;t=u(7);until true;else e=-2;end end end e=e+1;end;for e=0,m do if(e>=s)then k[e-s]=_[e+1];else t[e]=_[e+1];end;end;local e=m-s+1 local e;local o;local function u(...)while true do end end while true do if n<-40 then n=n+42 end e=f[n];o=e[ne];if 12>o then if 5>=o then if 3>o then if o>0 then if o~=0 then for f=12,65 do if o~=2 then local n=e[l]local l,e=b(t[n](c(t,n+1,e[d])))r=e+n-1 local e=0;for n=n,r do e=e+1;t[n]=l[e];end;break;end;n=e[d];break;end;else n=e[d];end else do return end;end else if 3<o then if 3~=o then for f=13,86 do if o<5 then local e=e[l]t[e]=t[e](c(t,e+1,r))break;end;if(t[e[l]]~=e[a])then n=n+1;else n=e[d];end;break;end;else local e=e[l]t[e]=t[e](c(t,e+1,r))end else local e=e[l]t[e]=t[e](c(t,e+1,r))end end else if o<9 then if 6<o then if o~=7 then local o,s,z,_,u;t[e[l]]=h[e[d]];n=n+1;e=f[n];o=e[l];s=t[e[d]];t[o+1]=s;t[o]=s[e[a]];n=n+1;e=f[n];t(e[l],e[d]);n=n+1;e=f[n];o=e[l]z,_=b(t[o](c(t,o+1,e[d])))r=_+o-1 u=0;for e=o,r do u=u+1;t[e]=z[u];end;n=n+1;e=f[n];o=e[l]t[o]=t[o](c(t,o+1,r))n=n+1;e=f[n];t[e[l]]();n=n+1;e=f[n];do return end;else if(t[e[l]]~=e[a])then n=n+1;else n=e[d];end;end else local n=e[l];local l=t[e[d]];t[n+1]=l;t[n]=l[e[a]];end else if 10>o then local n=e[l]local l,e=b(t[n](c(t,n+1,e[d])))r=e+n-1 local e=0;for n=n,r do e=e+1;t[n]=l[e];end;else if o>10 then local f,o,c,r,a;local n=0;while n>-1 do if 2<n then if n<5 then if n==3 then r=f[c];else a=f[o];end else if 4~=n then for e=32,53 do if 6~=n then t(a,r);break;end;n=-2;break;end;else n=-2;end end else if n<1 then f=e;else if-3<=n then for e=49,89 do if 2~=n then o=l;break;end;c=d;break;end;else o=l;end end end n=n+1 end else local l=e[l];local n=t[e[d]];t[l+1]=n;t[l]=n[e[a]];end end end end else if 17<o then if 21>o then if 18>=o then t[e[l]]=(e[d]~=0);else if o~=18 then for r=13,54 do if o~=19 then t[e[l]]();break;end;for o=0,3 do if o>=2 then if 2==o then t[e[l]]=h[e[d]];n=n+1;e=f[n];else if(t[e[l]]~=e[a])then n=n+1;else n=e[d];end;end else if 1==o then h[e[d]]=t[e[l]];n=n+1;e=f[n];else t[e[l]]=(e[d]~=0);n=n+1;e=f[n];end end end break;end;else for o=0,3 do if o>=2 then if 2==o then t[e[l]]=h[e[d]];n=n+1;e=f[n];else if(t[e[l]]~=e[a])then n=n+1;else n=e[d];end;end else if 1==o then h[e[d]]=t[e[l]];n=n+1;e=f[n];else t[e[l]]=(e[d]~=0);n=n+1;e=f[n];end end end end end else if o<22 then h[e[d]]=t[e[l]];else if 19~=o then repeat if 22<o then do return end;break;end;t[e[l]]=h[e[d]];until true;else do return end;end end end else if 15<=o then if 16<=o then if o>13 then repeat if 17~=o then t(e[l],e[d]);break;end;n=e[d];until true;else t(e[l],e[d]);end else t[e[l]]();end else if 12<o then if o~=14 then t[e[l]]=(e[d]~=0);else h[e[d]]=t[e[l]];end else t[e[l]]=h[e[d]];end end end end n=1+n;end;end;return j end;local l=0xff;local h={};local f=(1);local d='';(function(n)local t=n local r=0x00 local e=0x00 t={(function(o)if r>0x23 then return o end r=r+1 e=(e+0xad6-o)%0x33 return(e%0x03==0x1 and(function(t)if not n[t]then e=e+0x01 n[t]=(0x44);end return true end)'vEbop'and t[0x3](0x15f+o))or(e%0x03==0x2 and(function(t)if not n[t]then e=e+0x01 n[t]=(0xbf);d='\37';l={function()l()end};d=d..'\100\43';end return true end)'zuarM'and t[0x2](o+0x188))or(e%0x03==0x0 and(function(t)if not n[t]then e=e+0x01 n[t]=(0x7d);end return true end)'LWGmx'and t[0x1](o+0xe1))or o end),(function(a)if r>0x29 then return a end r=r+1 e=(e+0xb66-a)%0x1b return(e%0x03==0x0 and(function(t)if not n[t]then e=e+0x01 n[t]=(0x2e);d={d..'\58 a',d};h[f]=p();f=f+((not o.LQPrWIBH)and 1 or 0);d[1]='\58'..d[1];l[2]=0xff;end return true end)'fgtzo'and t[0x3](0x15b+a))or(e%0x03==0x2 and(function(t)if not n[t]then e=e+0x01 n[t]=(0xb1);end return true end)'qbuCD'and t[0x1](a+0x19a))or(e%0x03==0x1 and(function(t)if not n[t]then e=e+0x01 n[t]=(0xf5);h[f]=ee();f=f+l;end return true end)'uxVXW'and t[0x2](a+0xde))or a end),(function(o)if r>0x1e then return o end r=r+1 e=(e+0x87c-o)%0x37 return(e%0x03==0x2 and(function(t)if not n[t]then e=e+0x01 n[t]=(0xb8);l[2]=(l[2]*(k(function()h()end,c(d))-k(l[1],c(d))))+1;h[f]={};l=l[2];f=f+l;end return true end)'wTXIh'and t[0x2](0x1aa+o))or(e%0x03==0x1 and(function(t)if not n[t]then e=e+0x01 n[t]=(0xd1);end return true end)'XoSPU'and t[0x1](o+0x2a5))or(e%0x03==0x0 and(function(t)if not n[t]then e=e+0x01 n[t]=(0xc1);end return true end)'nLzPL'and t[0x3](o+0x38b))or o end)}t[0x1](0x19fe)end){};local e=j(c(h));return e(...);end return k((function()local n={}local e=0x01;local t;if o.LQPrWIBH then t=o.LQPrWIBH(k)else t=''end if o.DoDyprGS(t,o.UvWuzJYY)then e=e+0;else e=e+1;end n[e]=0x02;n[n[e]+0x01]=0x03;return n;end)(),...)end)((function(t,e,n,l,d,o)local o;if 4<=t then if t>=6 then if t>=7 then if t>3 then repeat if t>7 then do return n(t,nil,n);end break;end;do return setmetatable({},{['__\99\97\108\108']=function(e,l,t,d,n)if n then return e[n]elseif d then return e else e[l]=t end end})end until true;else do return setmetatable({},{['__\99\97\108\108']=function(e,d,t,l,n)if n then return e[n]elseif l then return e else e[d]=t end end})end end else do return d[n]end;end else if 2<=t then for o=42,96 do if 5~=t then local t=l;local l,f,d=d(2);do return function()local o,n,e,r=e(n,t(t,t),t(t,t)+3);t(4);return(r*l)+(e*f)+(n*d)+o;end;end;break;end;local t=l;do return function()local e=e(n,t(t,t),t(t,t));t(1);return e;end;end;break;end;else local t=l;do return function()local e=e(n,t(t,t),t(t,t));t(1);return e;end;end;end end else if t>=2 then if t>=1 then repeat if 3~=t then do return 16777216,65536,256 end;break;end;do return e(1),e(4,d,l,n,e),e(5,d,l,n)end;until true;else do return e(1),e(4,d,l,n,e),e(5,d,l,n)end;end else if-4<=t then for o=14,83 do if t~=1 then do return e(1),e(4,d,l,n,e),e(5,d,l,n)end;break;end;do return function(n,e,t)if t then local e=(n/2^(e-1))%2^((t-1)-(e-1)+1);return e-e%1;else local e=2^(e-1);return(n%(e+e)>=e)and 1 or 0;end;end;end;break;end;else do return e(1),e(4,d,l,n,e),e(5,d,l,n)end;end end end end),...)
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+
+
+local LocalPlayer = Players.LocalPlayer
+local isFarming = false
+local farmConnection = nil
+local currentlyTeleporting = false
+local farmDelay = 1.0  
+local teleportSpeed = 0.5  
+local lastScan = 0
+local scanInterval = 1.0  
+local cachedItems = {}
+local includeYen = false  
+local targetItems = {
+    "Arrow", "The Arrow.", "Yen", "Rokakaka", "Diary", "Heaven", "Vampire", "Blood", "Mask", 
+    "Soul", "Heart", "DIO", "Bone", "Stone", "Red", "Green", "Altruistic", 
+    "Glass Shard", "Octopus", "Requiem", "Corpse", "Golden"
+}
+
+local safeLocation = Vector3.new(3078.41, 1966.12, 414.04)
+local cityLocation = Vector3.new(-148.46, 2000.82, 570.42)
+local noclipConnection = nil
+
+local function enableNoclip()
+    if noclipConnection then return end
+    noclipConnection = RunService.Stepped:Connect(function()
+        if LocalPlayer.Character then
+            for _, part in pairs(LocalPlayer.Character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.CanCollide = false
+                end
+            end
+        end
+    end)
+end
+
+local function disableNoclip()
+    if noclipConnection then
+        noclipConnection:Disconnect()
+        noclipConnection = nil
+        if LocalPlayer.Character then
+            for _, part in pairs(LocalPlayer.Character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.CanCollide = true
+                end
+            end
+        end
+    end
+end
+
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "ItemFarmGUI"
+gui.Parent = game:GetService("CoreGui")
+
+local mainFrame = Instance.new("Frame")
+mainFrame.Name = "MainFrame"
+mainFrame.Size = UDim2.new(0, 300, 0, 250)  
+mainFrame.Position = UDim2.new(0.5, -150, 0.5, -125)
+mainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+mainFrame.BorderSizePixel = 0
+mainFrame.Active = true
+mainFrame.Draggable = true
+mainFrame.Parent = gui
+
+local title = Instance.new("TextLabel")
+title.Name = "Title"
+title.Size = UDim2.new(1, 0, 0, 30)
+title.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+title.BorderSizePixel = 0
+title.Text = "pedalkis farm"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.TextSize = 18
+title.Font = Enum.Font.SourceSansBold
+title.Parent = mainFrame
+
+local farmButton = Instance.new("TextButton")
+farmButton.Name = "FarmButton"
+farmButton.Size = UDim2.new(0.8, 0, 0, 40)
+farmButton.Position = UDim2.new(0.1, 0, 0.15, 0)
+farmButton.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+farmButton.BorderSizePixel = 0
+farmButton.Text = "Start Farming"
+farmButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+farmButton.TextSize = 16
+farmButton.Font = Enum.Font.SourceSansBold
+farmButton.Parent = mainFrame
+
+local statusLabel = Instance.new("TextLabel")
+statusLabel.Name = "Status"
+statusLabel.Size = UDim2.new(0.8, 0, 0, 30)
+statusLabel.Position = UDim2.new(0.1, 0, 0.35, 0)
+statusLabel.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+statusLabel.BorderSizePixel = 0
+statusLabel.Text = "Status: Idle"
+statusLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+statusLabel.TextSize = 14
+statusLabel.Font = Enum.Font.SourceSans
+statusLabel.Parent = mainFrame
+
+
+local speedSlider = Instance.new("Frame")
+speedSlider.Name = "SpeedSlider"
+speedSlider.Size = UDim2.new(0.8, 0, 0, 40)
+speedSlider.Position = UDim2.new(0.1, 0, 0.5, 0)
+speedSlider.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+speedSlider.BorderSizePixel = 0
+speedSlider.Parent = mainFrame
+
+local speedValue = Instance.new("TextLabel")
+speedValue.Name = "Value"
+speedValue.Size = UDim2.new(0, 50, 1, 0)
+speedValue.Position = UDim2.new(1, -50, 0, 0)
+speedValue.BackgroundTransparency = 1
+speedValue.Text = "0.5s"
+speedValue.TextColor3 = Color3.fromRGB(255, 255, 255)
+speedValue.TextSize = 14
+speedValue.Font = Enum.Font.SourceSans
+speedValue.Parent = speedSlider
+
+local speedTitle = Instance.new("TextLabel")
+speedTitle.Name = "Title"
+speedTitle.Size = UDim2.new(0.5, 0, 1, 0)
+speedTitle.BackgroundTransparency = 1
+speedTitle.Text = "Teleport Speed"
+speedTitle.TextColor3 = Color3.fromRGB(200, 200, 200)
+speedTitle.TextSize = 14
+speedTitle.Font = Enum.Font.SourceSans
+speedTitle.Parent = speedSlider
+
+local sliderSpeed = Instance.new("TextButton")
+sliderSpeed.Name = "Slider"
+sliderSpeed.Size = UDim2.new(0.6, 0, 0.5, 0)
+sliderSpeed.Position = UDim2.new(0.2, 0, 0.25, 0)
+sliderSpeed.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+sliderSpeed.BorderSizePixel = 0
+sliderSpeed.Text = ""
+sliderSpeed.Parent = speedSlider
+
+local sliderSpeedKnob = Instance.new("Frame")
+sliderSpeedKnob.Name = "Knob"
+sliderSpeedKnob.Size = UDim2.new(0.05, 0, 1.5, 0)
+sliderSpeedKnob.Position = UDim2.new(0.5, -5, -0.25, 0)
+sliderSpeedKnob.BackgroundColor3 = Color3.fromRGB(100, 200, 100)
+sliderSpeedKnob.BorderSizePixel = 0
+sliderSpeedKnob.Parent = sliderSpeed
+
+
+local delaySlider = Instance.new("Frame")
+delaySlider.Name = "DelaySlider"
+delaySlider.Size = UDim2.new(0.8, 0, 0, 40)
+delaySlider.Position = UDim2.new(0.1, 0, 0.65, 0)
+delaySlider.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+delaySlider.BorderSizePixel = 0
+delaySlider.Parent = mainFrame
+
+local delayValue = Instance.new("TextLabel")
+delayValue.Name = "Value"
+delayValue.Size = UDim2.new(0, 50, 1, 0)
+delayValue.Position = UDim2.new(1, -50, 0, 0)
+delayValue.BackgroundTransparency = 1
+delayValue.Text = "1.0s"
+delayValue.TextColor3 = Color3.fromRGB(255, 255, 255)
+delayValue.TextSize = 14
+delayValue.Font = Enum.Font.SourceSans
+delayValue.Parent = delaySlider
+
+local delayTitle = Instance.new("TextLabel")
+delayTitle.Name = "Title"
+delayTitle.Size = UDim2.new(0.5, 0, 1, 0)
+delayTitle.BackgroundTransparency = 1
+delayTitle.Text = "Farm Delay"
+delayTitle.TextColor3 = Color3.fromRGB(200, 200, 200)
+delayTitle.TextSize = 14
+delayTitle.Font = Enum.Font.SourceSans
+delayTitle.Parent = delaySlider
+
+local sliderDelay = Instance.new("TextButton")
+sliderDelay.Name = "Slider"
+sliderDelay.Size = UDim2.new(0.6, 0, 0.5, 0)
+sliderDelay.Position = UDim2.new(0.2, 0, 0.25, 0)
+sliderDelay.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+sliderDelay.BorderSizePixel = 0
+sliderDelay.Text = ""
+sliderDelay.Parent = delaySlider
+
+local sliderDelayKnob = Instance.new("Frame")
+sliderDelayKnob.Name = "Knob"
+sliderDelayKnob.Size = UDim2.new(0.05, 0, 1.5, 0)
+sliderDelayKnob.Position = UDim2.new(0.5, -5, -0.25, 0)
+sliderDelayKnob.BackgroundColor3 = Color3.fromRGB(100, 200, 100)
+sliderDelayKnob.BorderSizePixel = 0
+sliderDelayKnob.Parent = sliderDelay
+
+
+local yenToggleButton = Instance.new("TextButton")
+yenToggleButton.Name = "YenToggleButton"
+yenToggleButton.Size = UDim2.new(0.8, 0, 0, 30)
+yenToggleButton.Position = UDim2.new(0.1, 0, 0.9, 0)
+yenToggleButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+yenToggleButton.BorderSizePixel = 0
+yenToggleButton.Text = "Include Yen: OFF"
+yenToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+yenToggleButton.TextSize = 14
+yenToggleButton.Font = Enum.Font.SourceSans
+yenToggleButton.Parent = mainFrame
+
+
+local itemCounter = Instance.new("TextLabel")
+itemCounter.Name = "ItemCounter"
+itemCounter.Size = UDim2.new(0.8, 0, 0, 20)
+itemCounter.Position = UDim2.new(0.1, 0, 0.98, 0)
+itemCounter.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+itemCounter.BorderSizePixel = 0
+itemCounter.Text = "Items Found: 0"
+itemCounter.TextColor3 = Color3.fromRGB(200, 200, 200)
+itemCounter.TextSize = 14
+itemCounter.Font = Enum.Font.SourceSans
+itemCounter.Parent = mainFrame
+
+
+sliderSpeed.MouseButton1Down:Connect(function()
+    local connection
+    connection = RunService.RenderStepped:Connect(function()
+        local mouse = game:GetService("UserInputService"):GetMouseLocation()
+        local sliderPosition = sliderSpeed.AbsolutePosition
+        local sliderWidth = sliderSpeed.AbsoluteSize.X
+        
+        local relativeX = math.clamp((mouse.X - sliderPosition.X) / sliderWidth, 0, 1)
+        sliderSpeedKnob.Position = UDim2.new(relativeX, -5, -0.25, 0)
+        
+        teleportSpeed = 0.1 + (relativeX * 0.9) 
+        speedValue.Text = string.format("%.1fs", teleportSpeed)
+    end)
+    
+    local upConnection
+    upConnection = game:GetService("UserInputService").InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            connection:Disconnect()
+            upConnection:Disconnect()
+        end
+    end)
+end)
+
+
+sliderDelay.MouseButton1Down:Connect(function()
+    local connection
+    connection = RunService.RenderStepped:Connect(function()
+        local mouse = game:GetService("UserInputService"):GetMouseLocation()
+        local sliderPosition = sliderDelay.AbsolutePosition
+        local sliderWidth = sliderDelay.AbsoluteSize.X
+        
+        local relativeX = math.clamp((mouse.X - sliderPosition.X) / sliderWidth, 0, 1)
+        sliderDelayKnob.Position = UDim2.new(relativeX, -5, -0.25, 0)
+        
+        farmDelay = relativeX * 3.0 
+        delayValue.Text = string.format("%.1fs", farmDelay)
+    end)
+    
+    local upConnection
+    upConnection = game:GetService("UserInputService").InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            connection:Disconnect()
+            upConnection:Disconnect()
+        end
+    end)
+end)
+
+
+yenToggleButton.MouseButton1Click:Connect(function()
+    includeYen = not includeYen
+    yenToggleButton.Text = "Include Yen: " .. (includeYen and "ON" or "OFF")
+    yenToggleButton.BackgroundColor3 = includeYen and Color3.fromRGB(50, 150, 50) or Color3.fromRGB(80, 80, 80)
+    
+    
+    cachedItems = {}
+    
+    
+    local items = findValuableItems()
+    itemCounter.Text = "Items Found: " .. #items
+end)
+
+
+function teleportTo(destination, duration)
+    if currentlyTeleporting then return false end
+    currentlyTeleporting = true
+    
+    local wasNoclipEnabled = noclipConnection ~= nil
+    enableNoclip()
+    
+    if typeof(destination) == "Instance" then
+        destination = destination.CFrame.Position
+    elseif typeof(destination) == "CFrame" then
+        destination = destination.Position
+    elseif typeof(destination) ~= "Vector3" then
+        currentlyTeleporting = false
+        if not wasNoclipEnabled then
+            disableNoclip()
+        end
+        return false
+    end
+    
+    duration = duration or teleportSpeed
+    
+    local character = LocalPlayer.Character
+    if not character then 
+        currentlyTeleporting = false
+        if not wasNoclipEnabled then
+            disableNoclip()
+        end
+        return false
+    end
+    
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    local rootPart = character:FindFirstChild("HumanoidRootPart")
+    
+    if not humanoid or not rootPart then
+        currentlyTeleporting = false
+        if not wasNoclipEnabled then
+            disableNoclip()
+        end
+        return false
+    end
+    
+    pcall(function()
+        local bodyVelocity = Instance.new("BodyVelocity")
+        bodyVelocity.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+        bodyVelocity.Velocity = Vector3.new(0, 0, 0)
+        bodyVelocity.P = 9000
+        bodyVelocity.Parent = rootPart
+        
+        local tween = TweenService:Create(
+            rootPart, 
+            TweenInfo.new(duration, Enum.EasingStyle.Linear),
+            {CFrame = CFrame.new(destination)}
+        )
+        tween:Play()
+        
+        delay(duration + 0.1, function()
+            if bodyVelocity then bodyVelocity:Destroy() end
+            currentlyTeleporting = false
+            
+            if not wasNoclipEnabled and destination ~= safeLocation then
+                disableNoclip()
+            end
+        end)
+    end)
+    
+    return true
+end
+
+function findValuableItems()
+    local now = tick()
+    if now - lastScan < scanInterval and #cachedItems > 0 then
+        return cachedItems
+    end
+    local items = {}
+    lastScan = now
+    for _, child in ipairs(workspace:GetChildren()) do
+        local isTarget = false
+        local isYen = false
+        for _, pattern in ipairs(targetItems) do
+            if child.Name:find(pattern) then
+                
+                if child.Name:find("Yen") then
+                    isYen = true
+                    if includeYen then
+                        isTarget = true
+                    end
+                else
+                    isTarget = true
+                end
+                break
+            end
+        end
+        
+        if isTarget then
+            local position = nil
+            
+            
+            if child:IsA("Tool") and child:FindFirstChild("Handle") then
+                position = child.Handle.Position
+            elseif child:IsA("BasePart") then
+                position = child.Position
+            elseif child:IsA("Model") and child:FindFirstChild("HumanoidRootPart") then
+                position = child.HumanoidRootPart.Position
+            elseif child:FindFirstChildWhichIsA("BasePart") then
+                position = child:FindFirstChildWhichIsA("BasePart").Position
+            end
+            
+            if position then
+                table.insert(items, {
+                    name = child.Name,
+                    instance = child,
+                    position = position,
+                    isYen = isYen
+                })
+            end
+        end
+    end
+    
+    
+    cachedItems = items
+    return items
+end
+
+
+function getNearestItem()
+    local items = findValuableItems()
+    local character = LocalPlayer.Character
+    if not character or not character:FindFirstChild("HumanoidRootPart") then return nil end
+    
+    local rootPos = character.HumanoidRootPart.Position
+    local nearestItem = nil
+    local nearestDistance = math.huge
+    
+    for _, item in ipairs(items) do
+        local distance = (rootPos - item.position).Magnitude
+        if distance < nearestDistance then
+            nearestDistance = distance
+            nearestItem = item
+        end
+    end
+    
+    return nearestItem
+end
+
+
+function farmItems()
+    if isFarming then
+        
+        isFarming = false
+        if farmConnection then
+            farmConnection:Disconnect()
+            farmConnection = nil
+        end
+        farmButton.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+        farmButton.Text = "Start Farming"
+        statusLabel.Text = "Status: Idle"
+        return
+    end
+    
+    
+    isFarming = true
+    farmButton.BackgroundColor3 = Color3.fromRGB(150, 50, 50)
+    farmButton.Text = "Stop Farming"
+    
+    
+    local items = findValuableItems()
+    itemCounter.Text = "Items Found: " .. #items
+    
+    
+    local function farmCycle()
+        if not isFarming then return end
+        
+        local nearestItem = getNearestItem()
+        if nearestItem then
+            statusLabel.Text = "Status: Teleporting to " .. nearestItem.name
+            teleportTo(nearestItem.position, teleportSpeed)
+            
+            
+            delay(teleportSpeed + farmDelay, function()
+                
+                local items = findValuableItems()
+                itemCounter.Text = "Items Found: " .. #items
+                farmCycle()
+            end)
+        else
+            statusLabel.Text = "Status: No items found, scanning..."
+            
+            delay(0.5, function()
+                
+                local items = findValuableItems()
+                itemCounter.Text = "Items Found: " .. #items
+                farmCycle()
+            end)
+        end
+    end
+    
+    
+    farmCycle()
+end
+
+
+farmButton.MouseButton1Click:Connect(farmItems)
+
+
+local function notify(text, duration)
+    duration = duration or 3
+    
+    local notification = Instance.new("Frame")
+    notification.Name = "Notification"
+    notification.Size = UDim2.new(0, 300, 0, 50)
+    notification.Position = UDim2.new(0.5, -150, 0, -50)
+    notification.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    notification.BorderSizePixel = 0
+    notification.Parent = gui
+    
+    local notifText = Instance.new("TextLabel")
+    notifText.Name = "Text"
+    notifText.Size = UDim2.new(1, -20, 1, 0)
+    notifText.Position = UDim2.new(0, 10, 0, 0)
+    notifText.BackgroundTransparency = 1
+    notifText.Text = text
+    notifText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    notifText.TextSize = 14
+    notifText.Font = Enum.Font.SourceSans
+    notifText.TextWrapped = true
+    notifText.TextXAlignment = Enum.TextXAlignment.Left
+    notifText.Parent = notification
+    
+    
+    local tweenIn = TweenService:Create(
+        notification,
+        TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+        {Position = UDim2.new(0.5, -150, 0, 20)}
+    )
+    tweenIn:Play()
+    
+    
+    delay(duration, function()
+        local tweenOut = TweenService:Create(
+            notification,
+            TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
+            {Position = UDim2.new(0.5, -150, 0, -50)}
+        )
+        tweenOut:Play()
+        
+        tweenOut.Completed:Connect(function()
+            notification:Destroy()
+        end)
+    end)
+end
+
+local safeLocButton = Instance.new("TextButton")
+safeLocButton.Name = "SafeLocButton"
+safeLocButton.Size = UDim2.new(0.8, 0, 0, 30)
+safeLocButton.Position = UDim2.new(0.1, 0, 0.75, 0)
+safeLocButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+safeLocButton.BorderSizePixel = 0
+safeLocButton.Text = "Teleport to Safe Location"
+safeLocButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+safeLocButton.TextSize = 14
+safeLocButton.Font = Enum.Font.SourceSans
+safeLocButton.Parent = mainFrame
+
+local cityButton = Instance.new("TextButton")
+cityButton.Name = "CityButton"
+cityButton.Size = UDim2.new(0.8, 0, 0, 30)
+cityButton.Position = UDim2.new(0.1, 0, 0.82, 0)
+cityButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+cityButton.BorderSizePixel = 0
+cityButton.Text = "Teleport to City"
+cityButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+cityButton.TextSize = 14
+cityButton.Font = Enum.Font.SourceSans
+cityButton.Parent = mainFrame
+
+safeLocButton.MouseButton1Click:Connect(function()
+    statusLabel.Text = "Status: Teleporting to Safe Location..."
+    enableNoclip()  
+    if teleportTo(safeLocation, 1.0) then
+        delay(1.1, function()
+            if not isFarming then
+                statusLabel.Text = "Status: At Safe Location (Noclip Enabled)"
+            end
+        end)
+    else
+        statusLabel.Text = "Status: Teleport Failed"
+        disableNoclip()  
+    end
+end)
+
+cityButton.MouseButton1Click:Connect(function()
+    statusLabel.Text = "Status: Teleporting to City..."
+    if teleportTo(cityLocation, 1.0) then
+        delay(1.1, function()
+            if not isFarming then
+                statusLabel.Text = "Status: At City"
+            end
+        end)
+    else
+        statusLabel.Text = "Status: Teleport Failed"
+    end
+end)
+
+
+gui.Parent.ChildRemoved:Connect(function(child)
+    if child == gui then
+        if farmConnection then
+            farmConnection:Disconnect()
+        end
+        if noclipConnection then
+            disableNoclip()
+        end
+        isFarming = false
+    end
+end) 
