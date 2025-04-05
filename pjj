@@ -1,0 +1,702 @@
+local workspace = workspace
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local LP = Players.LocalPlayer
+local hitboxRemote = ReplicatedStorage:WaitForChild("Logic"):WaitForChild("hitbox")
+local miscRemote = ReplicatedStorage:WaitForChild("Logic"):WaitForChild("misc")
+local giveItemRemote = ReplicatedStorage:WaitForChild("Logic"):WaitForChild("giveitem")
+
+
+local DAMAGE_VALUE = 2e8
+local AUTH_KEY = "zxck0d929easjdkadasdji29e9u2es21"
+local UI_VALUE = "UI"
+
+
+local OverHeavenLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Pedalkis123/UISMAX/refs/heads/main/UI.lua"))()
+
+
+local Window = OverHeavenLib:MakeWindow({
+    Name = "Project Jojo GUI",
+    IntroEnabled = false
+})
+
+
+local CombatTab = Window:MakeTab({
+    Name = "Combat",
+    Icon = "rbxassetid://4483345998"
+})
+
+local ItemsTab = Window:MakeTab({
+    Name = "Items",
+    Icon = "rbxassetid://4483345998"
+})
+
+local MovementTab = Window:MakeTab({
+    Name = "Movement",
+    Icon = "rbxassetid://4483345998"
+})
+
+local MiscTab = Window:MakeTab({
+    Name = "Misc",
+    Icon = "rbxassetid://4483345998"
+})
+
+
+local CombatSection = CombatTab:AddSection({
+    Name = "Combat Features"
+})
+
+
+local damageEnabled = false
+
+
+local function damageCharacter(character)
+    if not damageEnabled then return end
+    
+    if character and character:FindFirstChildOfClass("Humanoid") and character.Name ~= LP.Name then
+        local playerPart = LP.Character:FindFirstChildOfClass("Part")
+        
+        
+        local allPlayers = Players:GetPlayers()
+        local potentialSpoofs = {}
+        
+        for _, player in ipairs(allPlayers) do
+            if player.Name ~= LP.Name and player.Name ~= character.Name and player.Character and player.Character:FindFirstChild("Torso") then
+                table.insert(potentialSpoofs, player)
+            end
+        end
+        
+        
+        local spoofPlayer = LP
+        if #potentialSpoofs > 0 then
+            spoofPlayer = potentialSpoofs[math.random(1, #potentialSpoofs)]
+        end
+        
+        
+        local randomDamage = math.random(10000, 50000)
+        
+        if playerPart then
+            
+            hitboxRemote:InvokeServer(0, 
+                                      spoofPlayer.Character:FindFirstChildOfClass("Part"), 
+                                      playerPart.CFrame, 
+                                      randomDamage, 
+                                      spoofPlayer.Character.Torso.voiceline, 
+                                      character:FindFirstChildOfClass("Humanoid"))
+        end
+    end
+end
+
+
+local function modifyPlayerStats(player)
+    if not damageEnabled then return end
+    
+    
+    local valueToUse = antiLogEnabled and math.random(5000, 10000) or DAMAGE_VALUE
+    local keyToUse = antiLogEnabled and "modified_key_" .. tostring(math.random(1000, 9999)) or AUTH_KEY
+    
+    local statsToChange = {
+        "S/Level", "Level", "Speed", "S/Speed", "Power", "S/Power", 
+        "Points", "S/Points", "Special", "S/Special"
+    }
+    
+    for _, stat in ipairs(statsToChange) do
+        miscRemote:FireServer(10, player[stat], valueToUse, keyToUse)
+    end
+    
+    
+    local standValue = antiLogEnabled and "random_stand_" .. tostring(math.random(1, 99)) or UI_VALUE
+    miscRemote:FireServer(10, player["Stand"], standValue, keyToUse)
+    miscRemote:FireServer(10, player["S/Stand"], standValue, keyToUse)
+end
+
+
+CombatSection:AddToggle({
+    Name = "Instant Kill",
+    Default = false,
+    Callback = function(Value)
+        damageEnabled = Value
+        
+        if Value then
+            
+            for _, character in ipairs(workspace:GetChildren()) do
+                if character:FindFirstChildOfClass("Humanoid") and character.Name ~= LP.Name then
+                    task.spawn(damageCharacter, character)
+                end
+            end
+            
+            
+            for _, player in ipairs(Players:GetPlayers()) do
+                modifyPlayerStats(player)
+            end
+        end
+    end
+})
+
+
+workspace.ChildAdded:Connect(function(character)
+    task.wait(0.125)
+    if character:FindFirstChildOfClass("Humanoid") and character.Name ~= LP.Name then
+        task.spawn(function()
+            repeat task.wait(0.75) until not character:FindFirstChildOfClass("ForceField")
+            damageCharacter(character)
+        end)
+    end
+end)
+
+
+local ItemsSection = ItemsTab:AddSection({
+    Name = "Item Giver"
+})
+
+local itemAmount = 1
+
+
+local function giveItem(itemName)
+    for i = 1, itemAmount do
+        giveItemRemote:FireServer(itemName)
+        task.wait(0.1) 
+    end
+end
+
+
+ItemsSection:AddTextbox({
+    Name = "Amount",
+    Default = "1",
+    TextDisappear = false,
+    Callback = function(Value)
+        itemAmount = tonumber(Value) or 1
+    end
+})
+
+
+ItemsSection:AddButton({
+    Name = "Give Arrow",
+    Callback = function()
+        giveItem("StandArrow")
+    end
+})
+
+ItemsSection:AddButton({
+    Name = "Give Roka",
+    Callback = function()
+        giveItem("RokakakaFruit")
+    end
+})
+
+
+local MovementSection = MovementTab:AddSection({
+    Name = "Movement Controls"
+})
+
+
+local speedEnabled = false
+local speedValue = 100
+local speedMethod = "Default" 
+
+MovementSection:AddSlider({
+    Name = "Speed Value",
+    Min = 16,
+    Max = 500,
+    Default = 100,
+    Color = Color3.fromRGB(0, 120, 255),
+    Increment = 1,
+    ValueName = "Speed",
+    Callback = function(Value)
+        speedValue = Value
+        if speedEnabled and LP.Character then
+            
+            applySpeedHack()
+        end
+    end
+})
+
+MovementSection:AddDropdown({
+    Name = "Speed Method",
+    Default = "Default",
+    Options = {"Default", "CFrame", "Velocity"},
+    Callback = function(Value)
+        speedMethod = Value
+        if speedEnabled and LP.Character then
+            
+            applySpeedHack()
+        end
+    end
+})
+
+
+function applySpeedHack()
+    local character = LP.Character
+    if not character then return end
+    
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    local hrp = character:FindFirstChild("HumanoidRootPart")
+    
+    if not humanoid or not hrp then return end
+    
+    if speedMethod == "Default" then
+        
+        humanoid.WalkSpeed = speedEnabled and speedValue or 16
+    elseif speedMethod == "CFrame" and speedEnabled then
+        
+    elseif speedMethod == "Velocity" and speedEnabled then
+        
+    end
+end
+
+MovementSection:AddToggle({
+    Name = "Speed Hack",
+    Default = false,
+    Callback = function(Value)
+        speedEnabled = Value
+        applySpeedHack()
+    end
+})
+
+
+local jumpEnabled = false
+local infiniteJumpEnabled = false
+local jumpValue = 100
+local jumpMethod = "Default" 
+
+MovementSection:AddSlider({
+    Name = "Jump Power",
+    Min = 50,
+    Max = 500,
+    Default = 100,
+    Color = Color3.fromRGB(0, 255, 128),
+    Increment = 1,
+    ValueName = "Power",
+    Callback = function(Value)
+        jumpValue = Value
+        if jumpEnabled and LP.Character then
+            applyJumpHack()
+        end
+    end
+})
+
+MovementSection:AddDropdown({
+    Name = "Jump Method",
+    Default = "Default",
+    Options = {"Default", "ForceJump", "Impulse"},
+    Callback = function(Value)
+        jumpMethod = Value
+        if jumpEnabled and LP.Character then
+            applyJumpHack()
+        end
+    end
+})
+
+
+function applyJumpHack()
+    local character = LP.Character
+    if not character then return end
+    
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    local hrp = character:FindFirstChild("HumanoidRootPart")
+    
+    if not humanoid or not hrp then return end
+    
+    if jumpMethod == "Default" then
+        
+        humanoid.JumpPower = jumpEnabled and jumpValue or 50
+    elseif jumpMethod == "ForceJump" or jumpMethod == "Impulse" then
+        
+        humanoid.JumpPower = 50 
+    end
+end
+
+MovementSection:AddToggle({
+    Name = "Jump Hack",
+    Default = false,
+    Callback = function(Value)
+        jumpEnabled = Value
+        applyJumpHack()
+    end
+})
+
+MovementSection:AddToggle({
+    Name = "Infinite Jump",
+    Default = false,
+    Callback = function(Value)
+        infiniteJumpEnabled = Value
+    end
+})
+
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if input.KeyCode == Enum.KeyCode.Space then
+        local character = LP.Character
+        if not character then return end
+        
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        local hrp = character:FindFirstChild("HumanoidRootPart")
+        
+        if not humanoid or not hrp then return end
+        
+        
+        if infiniteJumpEnabled then
+            humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        end
+        
+        
+        if jumpEnabled and (jumpMethod == "ForceJump" or jumpMethod == "Impulse") then
+            if jumpMethod == "ForceJump" then
+                humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+            elseif jumpMethod == "Impulse" then
+                hrp.Velocity = Vector3.new(hrp.Velocity.X, jumpValue, hrp.Velocity.Z)
+            end
+        end
+    end
+end)
+
+
+local FlySection = MovementTab:AddSection({
+    Name = "Advanced Flight"
+})
+
+
+local flyEnabled = false
+local flySpeed = 2
+local flyConnection = nil
+local gravityConnection = nil
+
+FlySection:AddSlider({
+    Name = "Flight Speed",
+    Min = 1,
+    Max = 10,
+    Default = 2,
+    Color = Color3.fromRGB(255, 128, 0),
+    Increment = 0.1,
+    ValueName = "Speed",
+    Callback = function(Value)
+        flySpeed = Value
+    end
+})
+
+
+function stopFlying()
+    
+    if flyConnection then
+        flyConnection:Disconnect()
+        flyConnection = nil
+    end
+    
+    if gravityConnection then
+        gravityConnection:Disconnect()
+        gravityConnection = nil
+    end
+    
+    
+    pcall(function()
+        workspace.Gravity = 196.2
+    end)
+    
+    
+    pcall(function()
+        local character = LP.Character
+        if not character then return end
+        
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.PlatformStand = false
+        end
+        
+        local hrp = character:FindFirstChild("HumanoidRootPart")
+        if hrp then
+            
+            hrp.Velocity = Vector3.new(hrp.Velocity.X * 0.5, 0, hrp.Velocity.Z * 0.5)
+        end
+    end)
+end
+
+
+function startFlying()
+    
+    stopFlying()
+    
+    
+    local character = LP.Character
+    if not character then return end
+    
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    local hrp = character:FindFirstChild("HumanoidRootPart")
+    
+    if not humanoid or not hrp then return end
+    
+    
+    workspace.Gravity = 0
+    
+    
+    gravityConnection = RunService.Heartbeat:Connect(function()
+        if not flyEnabled then return end
+        
+        
+        if hrp and hrp:IsDescendantOf(workspace) then
+            hrp.Velocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
+        else
+            stopFlying()
+        end
+    end)
+    
+    
+    flyConnection = RunService.Heartbeat:Connect(function()
+        if not flyEnabled then
+            stopFlying()
+            return
+        end
+        
+        
+        character = LP.Character
+        if not character or not character:IsDescendantOf(workspace) then
+            stopFlying()
+            return
+        end
+        
+        humanoid = character:FindFirstChildOfClass("Humanoid")
+        hrp = character:FindFirstChild("HumanoidRootPart")
+        
+        if not humanoid or not hrp then
+            stopFlying()
+            return
+        end
+        
+        
+        local camera = workspace.CurrentCamera
+        local lookVector = camera.CFrame.LookVector
+        local rightVector = camera.CFrame.RightVector
+        
+        
+        local moveVector = Vector3.new(0, 0, 0)
+        
+        
+        pcall(function()
+            if UserInputService:IsKeyDown(Enum.KeyCode.W) then
+                
+                local flatLook = Vector3.new(lookVector.X, 0, lookVector.Z).Unit
+                moveVector = moveVector + flatLook
+            end
+            
+            if UserInputService:IsKeyDown(Enum.KeyCode.S) then
+                
+                local flatLook = Vector3.new(lookVector.X, 0, lookVector.Z).Unit
+                moveVector = moveVector - flatLook
+            end
+            
+            if UserInputService:IsKeyDown(Enum.KeyCode.A) then
+                
+                local flatRight = Vector3.new(rightVector.X, 0, rightVector.Z).Unit
+                moveVector = moveVector - flatRight
+            end
+            
+            if UserInputService:IsKeyDown(Enum.KeyCode.D) then
+                
+                local flatRight = Vector3.new(rightVector.X, 0, rightVector.Z).Unit
+                moveVector = moveVector + flatRight
+            end
+            
+            
+            if moveVector.Magnitude > 0 then
+                moveVector = moveVector.Unit * (flySpeed * 25)
+            end
+            
+            
+            local verticalMovement = 0
+            if UserInputService:IsKeyDown(Enum.KeyCode.Space) then
+                verticalMovement = flySpeed * 25
+            end
+            if UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then
+                verticalMovement = -flySpeed * 25
+            end
+            
+            
+            hrp.Velocity = Vector3.new(
+                moveVector.X, 
+                verticalMovement,
+                moveVector.Z
+            )
+        end)
+    end)
+end
+
+FlySection:AddToggle({
+    Name = "Flight",
+    Default = false,
+    Callback = function(Value)
+        flyEnabled = Value
+        
+        if Value then
+            startFlying()
+        else
+            stopFlying()
+        end
+    end
+})
+
+
+local noclipEnabled = false
+local noclipConnection = nil
+
+
+function applyNoclip()
+    if noclipConnection then
+        noclipConnection:Disconnect()
+        noclipConnection = nil
+    end
+    
+    if noclipEnabled then
+        noclipConnection = RunService.Heartbeat:Connect(function()
+            local character = LP.Character
+            if not character then return end
+            
+            for _, part in pairs(character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.CanCollide = false
+                end
+            end
+        end)
+    end
+end
+
+MovementSection:AddToggle({
+    Name = "Noclip",
+    Default = false,
+    Callback = function(Value)
+        noclipEnabled = Value
+        applyNoclip()
+    end
+})
+
+
+RunService.Heartbeat:Connect(function()
+    local character = LP.Character
+    if not character then return end
+    
+    local hrp = character:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+    
+    
+    if speedEnabled and speedMethod ~= "Default" then
+        if speedMethod == "CFrame" then
+            
+            local moveDir = Vector3.new(0, 0, 0)
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            
+            if humanoid and humanoid.MoveDirection.Magnitude > 0 then
+                local multiplier = speedValue / 16 
+                hrp.CFrame = hrp.CFrame + (humanoid.MoveDirection * multiplier * 0.12)
+            end
+        end
+    end
+end)
+
+
+LP.CharacterAdded:Connect(function(character)
+    task.wait(1)
+    
+    
+    if speedEnabled then
+        applySpeedHack()
+    end
+    
+    if jumpEnabled then
+        applyJumpHack()
+    end
+    
+    if flyEnabled then
+        stopFlying() 
+        startFlying() 
+    end
+    
+    if noclipEnabled then
+        applyNoclip()
+end
+end)
+
+
+local MiscSection = MiscTab:AddSection({
+    Name = "Miscellaneous"
+})
+
+
+local itemTeleportEnabled = false
+local itemTeleportConnection = nil
+
+MiscSection:AddToggle({
+    Name = "Teleport All Items",
+    Default = false,
+    Callback = function(Value)
+        itemTeleportEnabled = Value
+        
+        if Value then
+            if itemTeleportConnection then
+                itemTeleportConnection:Disconnect()
+                itemTeleportConnection = nil
+            end
+            
+            itemTeleportConnection = RunService.Heartbeat:Connect(function()
+                if not itemTeleportEnabled then
+                    if itemTeleportConnection then
+                        itemTeleportConnection:Disconnect()
+                        itemTeleportConnection = nil
+                    end
+                    return
+                end
+                
+                for _, v in pairs(workspace:GetChildren()) do
+                    if v:IsA("Tool") and v:FindFirstChild("Handle") then
+                        if LP.Character and LP.Character:FindFirstChild("HumanoidRootPart") then
+                            v.Handle.CFrame = LP.Character.HumanoidRootPart.CFrame
+                        end
+                    end
+                end
+                
+                task.wait(3) 
+            end)
+        else
+            if itemTeleportConnection then
+                itemTeleportConnection:Disconnect()
+                itemTeleportConnection = nil
+            end
+        end
+    end
+})
+
+
+OverHeavenLib:MakeNotification({
+    Name = "Project Jojo",
+    Content = "gotovo",
+    Time = 5
+})
+
+
+local BypassSection = CombatTab:AddSection({
+    Name = "Anti-Log"
+})
+
+
+local antiLogEnabled = true 
+
+BypassSection:AddToggle({
+    Name = "Anti-Log Protection",
+    Default = true,
+    Callback = function(Value)
+        antiLogEnabled = Value
+        
+        if Value then
+            OverHeavenLib:MakeNotification({
+                Name = "Anti-Log",
+                Content = "spira loga",
+                Time = 5
+            })
+        else
+            OverHeavenLib:MakeNotification({
+                Name = "Anti log",
+                Content = "spira loga",
+                Time = 5
+            })
+        end
+    end
+})
