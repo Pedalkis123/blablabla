@@ -15,8 +15,8 @@ local cachedItems = {}
 local includeYen = false  
 local targetItems = {
     "Arrow", "The Arrow.", "Yen", "Rokakaka", "Diary", "Heaven", "Vampire", "Blood", "Mask", 
-    "Soul", "Heart", "DIO", "Bone", "Stone", "Red", "Green", "Altruistic", 
-    "Glass Shard", "Octopus", "Requiem", "Corpse", "Golden"
+    "Black Peral", "Picture", "Pebble", "Bone", "Stone", "Soap", "The Box", "Stone Mask", 
+    "Glass Shard", "Octopus", "Requiem", "Corpse", "Nugget"
 }
 
 local safeLocation = Vector3.new(3078.41, 1966.12, 414.04)
