@@ -1,0 +1,936 @@
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local HttpService = game:GetService("HttpService")
+local UserInputService = game:GetService("UserInputService")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local LocalPlayer = Players.LocalPlayer
+local Camera = workspace.CurrentCamera
+local Maid = {}
+Maid.__index = Maid
+
+local OverHeavenLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Pedalkis123/UISMAX/refs/heads/main/UI.lua"))()
+
+function Maid.new()
+    return setmetatable({
+        _tasks = {}
+    }, Maid)
+end
+
+function Maid:GiveTask(task)
+    table.insert(self._tasks, task)
+    return task
+end
+
+function Maid:Destroy()
+    for _, task in ipairs(self._tasks) do
+        if typeof(task) == "function" then
+            task()
+        elseif typeof(task) == "RBXScriptConnection" then
+            task:Disconnect()
+        elseif typeof(task) == "Instance" then
+            task:Destroy()
+        elseif typeof(task) == "table" and task.Destroy then
+            task:Destroy()
+        end
+    end
+    self._tasks = {}
+end
+
+local maid = Maid.new()
+
+local Window = OverHeavenLib:MakeWindow({
+    Name = "Stand Online Script",
+    HidePremium = true,
+    SaveConfig = true,
+    ConfigFolder = "StandOnlineScript"
+})
+
+local ItemTab = Window:MakeTab({
+    Name = "Item Farm",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local MiningTab = Window:MakeTab({
+    Name = "Mining Farm",
+    Icon = "rbxassetid://7044233235",
+    PremiumOnly = false
+})
+
+local PlayerTab = Window:MakeTab({
+    Name = "Player",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local functions = {}
+
+function functions.getFlag(flagName, defaultValue)
+    if not OverHeavenLib.Flags then return defaultValue end
+    if not OverHeavenLib.Flags[flagName] then return defaultValue end
+    return OverHeavenLib.Flags[flagName]
+end
+
+function functions.teleport(pos)
+    local character = LocalPlayer.Character
+    local rootPart = character and character.PrimaryPart
+    if not rootPart then return end
+
+    local vectorPos = typeof(pos) == "Vector3" and pos or pos.p
+    local distance = (vectorPos - rootPart.Position).Magnitude
+    
+    
+    local teleportSpeed = 150
+    if OverHeavenLib.Flags and OverHeavenLib.Flags["teleportSpeed"] then
+        if type(OverHeavenLib.Flags["teleportSpeed"]) == "number" then
+            teleportSpeed = OverHeavenLib.Flags["teleportSpeed"]
+        end
+    end
+    
+    local tween = TweenService:Create(
+        rootPart, 
+        TweenInfo.new(distance / teleportSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), 
+        {CFrame = typeof(pos) == "CFrame" and pos or CFrame.new(pos)}
+    )
+    
+    tween:Play()
+    return tween
+end
+
+function functions.findRealItems()
+    local items = {}
+    
+    for _, model in pairs(workspace.Items:GetChildren()) do
+        
+        if model:IsA("Model") and #model:GetChildren() > 0 then
+            for _, child in pairs(model:GetChildren()) do
+                
+                if child:IsA("Model") and child.Name ~= "MiningNode" then
+                    
+                    table.insert(items, {
+                        model = child,
+                        position = child:GetPivot().Position,
+                        name = child.Name,
+                        needsClick = child.Name == "Stone Mask" or child.Name == "Hamon Headband"
+                    })
+                end
+            end
+        end
+    end
+    
+    return items
+end
+
+function functions.findMiningNodes()
+    local nodes = {}
+    
+    for _, model in pairs(workspace.Items:GetChildren()) do
+        if model:IsA("Model") and #model:GetChildren() > 0 then
+            for _, child in pairs(model:GetChildren()) do
+                if child:IsA("Model") and child.Name == "MiningNode" then
+                    table.insert(nodes, {
+                        model = child,
+                        position = child:GetPivot().Position,
+                        name = child.Name
+                    })
+                end
+            end
+        end
+    end
+    
+    return nodes
+end
+
+function functions.pressE()
+    VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+    task.wait()
+    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
+end
+
+function functions.clickAt(position)
+    local screenPos, isOnScreen = Camera:WorldToScreenPoint(position)
+    if isOnScreen then
+        VirtualInputManager:SendMouseButtonEvent(screenPos.X, screenPos.Y, 0, true, game, 1)
+        task.wait(0.1)
+        VirtualInputManager:SendMouseButtonEvent(screenPos.X, screenPos.Y, 0, false, game, 1)
+    end
+end
+
+function functions.createItemESP(toggle)
+    if not toggle then
+        if maid._espFolder then
+            maid._espFolder:Destroy()
+            maid._espFolder = nil
+        end
+        if maid._espUpdateConnection then
+            maid._espUpdateConnection:Disconnect()
+            maid._espUpdateConnection = nil
+        end
+        return
+    end
+    
+    local espFolder = Instance.new("Folder")
+    espFolder.Name = "ItemESP"
+    espFolder.Parent = game.CoreGui
+    
+    maid._espFolder = espFolder
+    
+    maid._espUpdateConnection = RunService.RenderStepped:Connect(function()
+        
+        espFolder:ClearAllChildren()
+        
+        
+        local realItems = functions.findRealItems()
+        for _, itemData in pairs(realItems) do
+            local billboard = Instance.new("BillboardGui")
+            billboard.Size = UDim2.new(0, 200, 0, 50)
+            billboard.AlwaysOnTop = true
+            billboard.Name = itemData.name
+            
+            local textLabel = Instance.new("TextLabel")
+            textLabel.Size = UDim2.new(1, 0, 1, 0)
+            textLabel.BackgroundTransparency = 1
+            textLabel.Text = itemData.name .. (itemData.needsClick and " [Click]" or "")
+            
+            textLabel.TextColor3 = itemData.needsClick and Color3.fromRGB(255, 0, 255) or Color3.fromRGB(255, 255, 0)
+            textLabel.TextStrokeTransparency = 0
+            textLabel.TextSize = 14
+            textLabel.Font = Enum.Font.SourceSansBold
+            textLabel.Parent = billboard
+            
+            local adornee = Instance.new("Part")
+            adornee.Anchored = true
+            adornee.CanCollide = false
+            adornee.Transparency = 1
+            adornee.Size = Vector3.new(1, 1, 1)
+            adornee.CFrame = CFrame.new(itemData.position)
+            adornee.Parent = espFolder
+            
+            billboard.Adornee = adornee
+            billboard.Parent = espFolder
+        end
+    end)
+end
+
+function functions.createMiningNodeESP(toggle)
+    if not toggle then
+        if maid._miningEspFolder then
+            maid._miningEspFolder:Destroy()
+            maid._miningEspFolder = nil
+        end
+        if maid._miningEspUpdateConnection then
+            maid._miningEspUpdateConnection:Disconnect()
+            maid._miningEspUpdateConnection = nil
+        end
+        return
+    end
+    
+    local espFolder = Instance.new("Folder")
+    espFolder.Name = "MiningNodeESP"
+    espFolder.Parent = game.CoreGui
+    
+    maid._miningEspFolder = espFolder
+    
+    maid._miningEspUpdateConnection = RunService.RenderStepped:Connect(function()
+        
+        espFolder:ClearAllChildren()
+        
+        
+        local nodes = functions.findMiningNodes()
+        for _, nodeData in pairs(nodes) do
+            local billboard = Instance.new("BillboardGui")
+            billboard.Size = UDim2.new(0, 200, 0, 50)
+            billboard.AlwaysOnTop = true
+            billboard.Name = "MiningNode"
+            
+            local textLabel = Instance.new("TextLabel")
+            textLabel.Size = UDim2.new(1, 0, 1, 0)
+            textLabel.BackgroundTransparency = 1
+            textLabel.Text = "Mining Node"
+            textLabel.TextColor3 = Color3.fromRGB(0, 255, 255) 
+            textLabel.TextStrokeTransparency = 0
+            textLabel.TextSize = 14
+            textLabel.Font = Enum.Font.SourceSansBold
+            textLabel.Parent = billboard
+            
+            local adornee = Instance.new("Part")
+            adornee.Anchored = true
+            adornee.CanCollide = false
+            adornee.Transparency = 1
+            adornee.Size = Vector3.new(1, 1, 1)
+            adornee.CFrame = CFrame.new(nodeData.position)
+            adornee.Parent = espFolder
+            
+            billboard.Adornee = adornee
+            billboard.Parent = espFolder
+        end
+    end)
+end
+
+function functions.farmItems(toggle)
+    if not toggle then
+        if maid._farmLoop then
+            maid._farmLoop:Disconnect()
+            maid._farmLoop = nil
+        end
+        
+        
+        if functions.getFlag("autoFarmNoclip", false) then
+            functions.setNoClip(false)
+        end
+        
+        return
+    end
+    
+    if functions.getFlag("autoFarmNoclip", false) then
+        functions.setNoClip(true)
+    end
+    
+    if maid._farmLoop then
+        maid._farmLoop:Disconnect()
+    end
+    
+    maid._farmLoop = RunService.Heartbeat:Connect(function()
+        local realItems = functions.findRealItems()
+        
+        if #realItems == 0 then
+            
+            return
+        end
+        
+        table.sort(realItems, function(a, b)
+            local rootPart = LocalPlayer.Character and LocalPlayer.Character.PrimaryPart
+            if not rootPart then return false end
+            
+            local distA = (a.position - rootPart.Position).Magnitude
+            local distB = (b.position - rootPart.Position).Magnitude
+            
+            return distA < distB
+        end)
+        
+        local closestItem = realItems[1]
+        
+        local rootPart = LocalPlayer.Character and LocalPlayer.Character.PrimaryPart
+        if rootPart and (rootPart.Position - closestItem.position).Magnitude > 10 then
+            functions.teleport(closestItem.position)
+            
+            if closestItem.needsClick then
+                task.wait(0.5) 
+                functions.clickAt(closestItem.position)
+            end
+        elseif closestItem.needsClick and (rootPart.Position - closestItem.position).Magnitude <= 10 then
+            
+            functions.clickAt(closestItem.position)
+        end
+    end)
+end
+
+function functions.farmMiningNodes(toggle)
+    if not toggle then
+        if maid._miningLoop then
+            maid._miningLoop:Disconnect()
+            maid._miningLoop = nil
+        end
+        return
+    end
+    
+    if maid._miningLoop then
+        maid._miningLoop:Disconnect()
+    end
+    
+    maid._miningLoop = task.spawn(function()
+        while task.wait(0.1) do
+            if not (OverHeavenLib.Flags and OverHeavenLib.Flags["autoMine"]) then 
+                break 
+            end
+            
+            local character = LocalPlayer.Character
+            local backpack = LocalPlayer:FindFirstChild("Backpack")
+            local pickaxe = character and character:FindFirstChild("Pickaxe")
+            
+            if not pickaxe and backpack then
+                pickaxe = backpack:FindFirstChild("Pickaxe")
+                if pickaxe then
+                    pickaxe.Parent = character
+                    task.wait(0.5) 
+                end
+            end
+            
+            if not pickaxe then
+                task.wait(1)
+                continue
+            end
+            
+            local nodes = functions.findMiningNodes()
+            
+            if #nodes == 0 then
+                task.wait(1)
+                continue
+            end
+            
+            table.sort(nodes, function(a, b)
+                local rootPart = character and character.PrimaryPart
+                if not rootPart then return false end
+                
+                local distA = (a.position - rootPart.Position).Magnitude
+                local distB = (b.position - rootPart.Position).Magnitude
+                
+                return distA < distB
+            end)
+             
+            for _, node in ipairs(nodes) do
+                if not (OverHeavenLib.Flags and OverHeavenLib.Flags["autoMine"]) then break end
+                
+                local rootPart = character and character.PrimaryPart
+                if rootPart then
+                    
+                    local tween = functions.teleport(node.position)
+                    
+                    if tween.PlaybackState ~= Enum.PlaybackState.Completed then
+                        tween.Completed:Wait()
+                    end
+                    
+                    functions.pressE()
+                    
+                    task.wait(3)
+                end
+            end
+        end
+    end)
+end
+
+local speedMaid = {}
+
+function functions.setSpeed(toggle)
+    
+    for _, task in pairs(speedMaid) do
+        if typeof(task) == "RBXScriptConnection" then
+            task:Disconnect()
+        elseif typeof(task) == "Instance" then
+            task:Destroy()
+        end
+    end
+    speedMaid = {}
+    
+    if not toggle then
+        local humanoid = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.WalkSpeed = 16
+        end
+        return
+    end
+    
+    local speedConnection = RunService.Heartbeat:Connect(function()
+        local character = LocalPlayer.Character
+        if not character then return end
+        
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        local rootPart = character:FindFirstChild("HumanoidRootPart")
+        
+        if not humanoid or not rootPart then return end
+        
+        local speedValue = 100
+        if OverHeavenLib.Flags and OverHeavenLib.Flags["speedValue"] then
+            if type(OverHeavenLib.Flags["speedValue"]) == "number" then
+                speedValue = OverHeavenLib.Flags["speedValue"]
+            end
+        end
+        
+        
+        if humanoid.MoveDirection.Magnitude > 0 then
+            
+            local targetVelocity = humanoid.MoveDirection * speedValue
+            
+            
+            targetVelocity = Vector3.new(
+                targetVelocity.X,
+                rootPart.Velocity.Y,
+                targetVelocity.Z
+            )
+            
+            
+            rootPart.Velocity = targetVelocity
+            
+            
+            if math.random(1, 10) == 1 then
+                local microAdjustment = humanoid.MoveDirection * (math.random() * 0.01)
+                rootPart.CFrame = rootPart.CFrame + Vector3.new(microAdjustment.X, 0, microAdjustment.Z)
+            end
+        end
+    end)
+    
+    table.insert(speedMaid, speedConnection)
+    
+    
+    local respawnConnection = LocalPlayer.CharacterAdded:Connect(function(newCharacter)
+        if not OverHeavenLib.Flags or not OverHeavenLib.Flags["speedEnabled"] then return end
+        
+        task.wait(0.5) 
+        
+        local humanoid = newCharacter:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            
+            local speedValue = 100
+            if OverHeavenLib.Flags and OverHeavenLib.Flags["speedValue"] then
+                if type(OverHeavenLib.Flags["speedValue"]) == "number" then
+                    speedValue = OverHeavenLib.Flags["speedValue"]
+                end
+            end
+            humanoid.WalkSpeed = speedValue
+        end
+    end)
+    
+    table.insert(speedMaid, respawnConnection)
+end
+
+
+function functions.setFly(toggle)
+    if not toggle then
+        
+        if maid._flyBV then
+            maid._flyBV:Destroy()
+            maid._flyBV = nil
+        end
+        
+        if maid._flyNoGravity then
+            maid._flyNoGravity:Disconnect()
+            maid._flyNoGravity = nil
+        end
+        
+        if maid._flyLoop then
+            maid._flyLoop:Disconnect()
+            maid._flyLoop = nil
+        end
+        
+        
+        workspace.Gravity = 196.2
+        
+        
+        local character = LocalPlayer.Character
+        if character then
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                humanoid.PlatformStand = false
+            end
+            
+            
+            for _, part in pairs(character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.CanCollide = true
+                end
+            end
+        end
+        
+        return
+    end
+    
+    
+    if maid._flyBV then maid._flyBV:Destroy() end
+    if maid._flyNoGravity then maid._flyNoGravity:Disconnect() end
+    if maid._flyLoop then maid._flyLoop:Disconnect() end
+    
+    
+    local camera = workspace.CurrentCamera
+    local character = LocalPlayer.Character
+    if not character then return end
+    
+    local rootPart = character:FindFirstChild("HumanoidRootPart")
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    if not rootPart or not humanoid then return end
+    
+    
+    local bv = Instance.new("BodyVelocity")
+    bv.Velocity = Vector3.new(0, 0, 0)
+    bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+    bv.P = 9000 
+    bv.Parent = rootPart
+    maid._flyBV = bv
+    
+    
+    maid._flyNoGravity = RunService.Stepped:Connect(function()
+        for _, part in pairs(character:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = false
+            end
+        end
+    end)
+    
+    
+    local flyLastJitterUpdate = tick()
+    local flyJitterInterval = 0.3
+    local flyJitter = {x = 0, y = 0, z = 0}
+    local flyHeightOffset = 0
+    local flyLastPos = rootPart.Position
+    
+    
+    local function simulateNaturalMovement(position, velocity)
+        
+        if tick() - flyLastJitterUpdate > flyJitterInterval then
+            flyJitter = {
+                x = math.random(-5, 5) / 100,
+                y = math.random(-3, 3) / 100,
+                z = math.random(-5, 5) / 100
+            }
+            flyLastJitterUpdate = tick()
+            
+            
+            if math.random(1, 10) > 7 then
+                flyHeightOffset = math.random(-10, 10) / 100
+            end
+        end
+        
+        
+        local jitteredPosition = Vector3.new(
+            position.X + flyJitter.x,
+            position.Y + flyJitter.y + flyHeightOffset,
+            position.Z + flyJitter.z
+        )
+        
+        
+        local randomFactor = Vector3.new(
+            math.random(-10, 10) / 100,
+            math.random(-5, 5) / 100,
+            math.random(-10, 10) / 100
+        )
+        
+        flyLastPos = jitteredPosition
+        
+        return jitteredPosition, velocity + randomFactor
+    end
+    
+    
+    maid._flyLoop = RunService.RenderStepped:Connect(function()
+        
+        if not character or not character.Parent or not rootPart or not humanoid then
+            functions.setFly(false)
+            return
+        end
+        
+        
+        local flySpeed = 50
+        if OverHeavenLib.Flags and OverHeavenLib.Flags["flySpeed"] then
+            if type(OverHeavenLib.Flags["flySpeed"]) == "number" then
+                flySpeed = OverHeavenLib.Flags["flySpeed"] * 10 
+            end
+        end
+        
+        
+        local velocity = Vector3.new(0, 0, 0)
+        
+        
+        local lookVector = camera.CFrame.LookVector
+        local rightVector = camera.CFrame.RightVector
+        
+        
+        if UserInputService:IsKeyDown(Enum.KeyCode.W) then
+            velocity = velocity + lookVector * flySpeed
+        end
+        if UserInputService:IsKeyDown(Enum.KeyCode.S) then
+            velocity = velocity - lookVector * flySpeed
+        end
+        if UserInputService:IsKeyDown(Enum.KeyCode.A) then
+            velocity = velocity - rightVector * flySpeed
+        end
+        if UserInputService:IsKeyDown(Enum.KeyCode.D) then
+            velocity = velocity + rightVector * flySpeed
+        end
+        
+        
+        if UserInputService:IsKeyDown(Enum.KeyCode.Space) then
+            velocity = velocity + Vector3.new(0, flySpeed, 0)
+        end
+        if UserInputService:IsKeyDown(Enum.KeyCode.LeftShift) then
+            velocity = velocity - Vector3.new(0, flySpeed, 0)
+        end
+        
+        
+        local finalPosition, finalVelocity = simulateNaturalMovement(rootPart.Position + velocity * 0.016, velocity)
+        
+        
+        rootPart.CFrame = CFrame.new(finalPosition, finalPosition + camera.CFrame.LookVector)
+        
+        
+        bv.Velocity = finalVelocity
+        
+        
+        humanoid.PlatformStand = true
+    end)
+    
+    
+    maid:GiveTask(humanoid.Died:Connect(function()
+        if functions.getFlag("flyEnabled", false) then
+            task.wait(3) 
+            functions.setFly(true)
+        end
+    end))
+end
+
+
+function functions.setNoClip(toggle)
+    
+    if maid._noClipLoop then
+        maid._noClipLoop:Disconnect()
+        maid._noClipLoop = nil
+        
+        
+        if not toggle then
+            local character = LocalPlayer.Character
+            if character then
+                for _, part in ipairs(character:GetDescendants()) do
+                    if part:IsA("BasePart") and not part.Name:match("HumanoidRootPart") then
+                        part.CanCollide = true
+                    end
+                end
+            end
+        end
+    end
+    
+    
+    if toggle then
+        maid._noClipLoop = RunService.Stepped:Connect(function()
+            local character = LocalPlayer.Character
+            if not character then return end
+            
+            for _, part in ipairs(character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.CanCollide = false
+                end
+            end
+        end)
+    end
+end
+
+
+function functions.setInfiniteJump(toggle)
+    if toggle then
+        
+        maid._infiniteJumpConnection = UserInputService.JumpRequest:Connect(function()
+            local character = LocalPlayer.Character
+            if not character then return end
+            
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            if not humanoid then return end
+            
+            
+            humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        end)
+    else
+        
+        if maid._infiniteJumpConnection then
+            maid._infiniteJumpConnection:Disconnect()
+            maid._infiniteJumpConnection = nil
+        end
+    end
+end
+
+
+local ItemFarmSection = ItemTab:AddSection({
+    Name = "Item Farm"
+})
+
+
+ItemFarmSection:AddToggle({
+    Name = "Auto Farm Items",
+    Default = false,
+    Flag = "autoFarm",
+    Save = true,
+    Callback = functions.farmItems
+})
+
+ItemFarmSection:AddToggle({
+    Name = "Auto Farm NoClip",
+    Default = true,
+    Flag = "autoFarmNoclip",
+    Save = true
+})
+
+ItemFarmSection:AddToggle({
+    Name = "Show Item ESP",
+    Default = false,
+    Flag = "itemESP",
+    Save = true,
+    Callback = functions.createItemESP
+})
+
+ItemFarmSection:AddSlider({
+    Name = "Teleport Speed",
+    Min = 50,
+    Max = 300,
+    Default = 150,
+    Color = Color3.fromRGB(255, 255, 255),
+    Increment = 10,
+    ValueName = "speed",
+    Flag = "teleportSpeed",
+    Save = true
+})
+
+
+ItemFarmSection:AddButton({
+    Name = "Items Found: 0",
+    Callback = function() end
+})
+
+
+local MiningFarmSection = MiningTab:AddSection({
+    Name = "Mining Farm"
+})
+
+MiningFarmSection:AddToggle({
+    Name = "Auto Mine",
+    Default = false,
+    Flag = "autoMine",
+    Save = true,
+    Callback = functions.farmMiningNodes
+})
+
+MiningFarmSection:AddToggle({
+    Name = "Show Mining Node ESP",
+    Default = false,
+    Flag = "miningNodeESP",
+    Save = true,
+    Callback = functions.createMiningNodeESP
+})
+
+MiningFarmSection:AddButton({
+    Name = "Mining Nodes Found: 0", 
+    Callback = function() end
+})
+
+
+local PlayerMovementSection = PlayerTab:AddSection({
+    Name = "Movement"
+})
+
+
+PlayerMovementSection:AddToggle({
+    Name = "Speed Hack",
+    Default = false,
+    Flag = "speedEnabled",
+    Save = true,
+    Callback = functions.setSpeed
+})
+
+PlayerMovementSection:AddSlider({
+    Name = "Speed Value", 
+    Min = 16,
+    Max = 500,
+    Default = 50,
+    Color = Color3.fromRGB(255, 0, 0),
+    Increment = 1,
+    ValueName = "speed",
+    Flag = "speedValue",
+    Save = true
+})
+
+
+PlayerMovementSection:AddToggle({
+    Name = "Infinite Jump",
+    Default = false,
+    Flag = "infiniteJump",
+    Save = true,
+    Callback = functions.setInfiniteJump
+})
+
+
+PlayerMovementSection:AddToggle({
+    Name = "Fly Hack",
+    Default = false,
+    Flag = "flyEnabled",
+    Save = true,
+    Callback = functions.setFly
+})
+
+PlayerMovementSection:AddSlider({
+    Name = "Fly Speed", 
+    Min = 1,
+    Max = 100,
+    Default = 2,
+    Color = Color3.fromRGB(0, 0, 255),
+    Increment = 0.5,
+    ValueName = "speed",
+    Flag = "flySpeed",
+    Save = true
+})
+
+
+local PlayerAdvancedSection = PlayerTab:AddSection({
+    Name = "Advanced"
+})
+
+
+PlayerAdvancedSection:AddToggle({
+    Name = "No Clip",
+    Default = false,
+    Flag = "noClip",
+    Save = true,
+    Callback = functions.setNoClip
+})
+
+
+PlayerAdvancedSection:AddButton({
+    Name = "Reset Character",
+    Callback = function()
+        local character = LocalPlayer.Character
+        if character and character:FindFirstChildOfClass("Humanoid") then
+            character:FindFirstChildOfClass("Humanoid").Health = 0
+        end
+    end
+})
+
+
+task.spawn(function()
+    while task.wait(1) do
+        pcall(function()
+            local items = functions.findRealItems()
+            local nodes = functions.findMiningNodes()
+            
+            if items and #items > 0 then
+                for _, button in pairs(ItemTab:GetElements()) do
+                    if type(button) == "table" and button.Button and button.Button.Name and button.Button.Name:find("Items Found") then
+                        button.Button.Name = "Items Found: " .. #items
+                    end
+                end
+            end
+            
+            if nodes and #nodes > 0 then
+                for _, button in pairs(MiningTab:GetElements()) do
+                    if type(button) == "table" and button.Button and button.Button.Name and button.Button.Name:find("Mining Nodes Found") then
+                        button.Button.Name = "Mining Nodes Found: " .. #nodes
+                    end
+                end
+            end
+        end)
+    end
+end)
+
+
+LocalPlayer.CharacterAdded:Connect(function(character)
+    task.wait(0.5)
+    if OverHeavenLib.Flags and OverHeavenLib.Flags["speedEnabled"] then
+        functions.setSpeed(true)
+    end
+    
+    if OverHeavenLib.Flags and OverHeavenLib.Flags["flyEnabled"] then
+        functions.setFly(true)
+    end
+    
+    if OverHeavenLib.Flags and OverHeavenLib.Flags["infiniteJump"] then
+        functions.setInfiniteJump(true)
+    end
+    
+    
+    if OverHeavenLib.Flags and OverHeavenLib.Flags["autoFarm"] then
+        task.wait(1)
+        functions.farmItems(true)
+    end
+end)
+
+
+game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
+    if State == Enum.TeleportState.Started then
+        maid:Destroy()
+    end
+end)
