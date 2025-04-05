@@ -329,75 +329,129 @@ function functions.farmItems(toggle)
 end
 
 function functions.farmMiningNodes(toggle)
-    if not toggle then
-        if maid._miningLoop then
-            maid._miningLoop:Disconnect()
-            maid._miningLoop = nil
-        end
-        return
+    if maid._miningThread then
+        task.cancel(maid._miningThread)
+        maid._miningThread = nil
     end
     
     if maid._miningLoop then
         maid._miningLoop:Disconnect()
+        maid._miningLoop = nil
     end
     
-    maid._miningLoop = task.spawn(function()
-        while task.wait(0.1) do
-            if not (OverHeavenLib.Flags and OverHeavenLib.Flags["autoMine"]) then 
+    maid._autoMineEnabled = toggle
+    
+    if not toggle then
+        return
+    end
+    
+    maid._miningThread = task.spawn(function()
+        while true do
+            if not maid._autoMineEnabled or not functions.getFlag("autoMine", false) then 
                 break 
             end
             
+            task.wait(0.1)
+            
             local character = LocalPlayer.Character
+            if not character then continue end
+            
             local backpack = LocalPlayer:FindFirstChild("Backpack")
             local pickaxe = character and character:FindFirstChild("Pickaxe")
             
             if not pickaxe and backpack then
                 pickaxe = backpack:FindFirstChild("Pickaxe")
                 if pickaxe then
-                    pickaxe.Parent = character
-                    task.wait(0.5) 
+                    pcall(function()
+                        pickaxe.Parent = character
+                    end)
+                    task.wait(0.5)
                 end
             end
             
             if not pickaxe then
                 task.wait(1)
+                if not maid._autoMineEnabled or not functions.getFlag("autoMine", false) then break end
                 continue
             end
             
-            local nodes = functions.findMiningNodes()
+            local nodes = {}
+            pcall(function() 
+                nodes = functions.findMiningNodes() 
+            end)
             
             if #nodes == 0 then
                 task.wait(1)
+                if not maid._autoMineEnabled or not functions.getFlag("autoMine", false) then break end
                 continue
             end
             
-            table.sort(nodes, function(a, b)
-                local rootPart = character and character.PrimaryPart
-                if not rootPart then return false end
-                
-                local distA = (a.position - rootPart.Position).Magnitude
-                local distB = (b.position - rootPart.Position).Magnitude
-                
-                return distA < distB
+            pcall(function()
+                table.sort(nodes, function(a, b)
+                    local rootPart = character and character.PrimaryPart
+                    if not rootPart then return false end
+                    
+                    local distA = (a.position - rootPart.Position).Magnitude
+                    local distB = (b.position - rootPart.Position).Magnitude
+                    
+                    return distA < distB
+                end)
             end)
-             
+            
             for _, node in ipairs(nodes) do
-                if not (OverHeavenLib.Flags and OverHeavenLib.Flags["autoMine"]) then break end
+                if not maid._autoMineEnabled or not functions.getFlag("autoMine", false) then 
+                    break 
+                end
                 
                 local rootPart = character and character.PrimaryPart
-                if rootPart then
-                    
-                    local tween = functions.teleport(node.position)
-                    
-                    if tween.PlaybackState ~= Enum.PlaybackState.Completed then
-                        tween.Completed:Wait()
+                if not rootPart then continue end
+                
+                local tween = nil
+                pcall(function()
+                    tween = functions.teleport(node.position)
+                end)
+                
+                if tween and tween.PlaybackState ~= Enum.PlaybackState.Completed then
+                    pcall(function() 
+                        tween.Completed:Wait() 
+                    end)
+                else
+                    task.wait(0.5)
+                end
+                
+                if not maid._autoMineEnabled or not functions.getFlag("autoMine", false) then 
+                    break 
+                end
+                
+                functions.pressE()
+                
+                for i = 1, 30 do
+                    task.wait(0.1)
+                    if not maid._autoMineEnabled or not functions.getFlag("autoMine", false) then 
+                        break 
                     end
-                    
-                    functions.pressE()
-                    
-                    task.wait(3)
+                end
+                
+                if not maid._autoMineEnabled or not functions.getFlag("autoMine", false) then 
+                    break 
                 end
             end
+            
+            task.wait(0.1)
+        end
+    end)
+    
+    maid._miningLoop = RunService.Heartbeat:Connect(function()
+        if not functions.getFlag("autoMine", false) and maid._autoMineEnabled then
+            maid._autoMineEnabled = false
+            
+            if maid._miningThread then
+                task.cancel(maid._miningThread)
+                maid._miningThread = nil
+            end
+            
+            maid._miningLoop:Disconnect()
+            maid._miningLoop = nil
         end
     end)
 end
@@ -817,7 +871,7 @@ PlayerMovementSection:AddSlider({
     Name = "Speed Value", 
     Min = 16,
     Max = 500,
-    Default = 50,
+    Default = 100,
     Color = Color3.fromRGB(255, 0, 0),
     Increment = 1,
     ValueName = "speed",
