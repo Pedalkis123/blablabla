@@ -18,7 +18,7 @@ local OverHeavenLib = loadstring(game:HttpGet("https://raw.githubusercontent.com
 
 
 local Window = OverHeavenLib:MakeWindow({
-    Name = "Project Jojo GUI",
+    Name = "Updated Project Jojo GUI",
     IntroEnabled = false
 })
 
@@ -40,6 +40,21 @@ local MovementTab = Window:MakeTab({
 
 local MiscTab = Window:MakeTab({
     Name = "Misc",
+    Icon = "rbxassetid://4483345998"
+})
+
+local PlayerTab = Window:MakeTab({
+    Name = "Player", 
+    Icon = "rbxassetid://4483345998"
+})
+
+local TeleportsTab = Window:MakeTab({
+    Name = "Teleports",
+    Icon = "rbxassetid://4483345998"
+})
+
+local WorldsTab = Window:MakeTab({
+    Name = "Worlds",
     Icon = "rbxassetid://4483345998"
 })
 
@@ -349,6 +364,10 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
                 hrp.Velocity = Vector3.new(hrp.Velocity.X, jumpValue, hrp.Velocity.Z)
             end
         end
+    elseif input.KeyCode == Enum.KeyCode.RightControl then
+        if game.CoreGui:FindFirstChild("OverHeavenLib") then
+            game.CoreGui.OverHeavenLib.MainFrame.Visible = not game.CoreGui.OverHeavenLib.MainFrame.Visible
+        end
     end
 end)
 
@@ -612,7 +631,7 @@ LP.CharacterAdded:Connect(function(character)
     
     if noclipEnabled then
         applyNoclip()
-end
+    end
 end)
 
 
@@ -664,10 +683,17 @@ MiscSection:AddToggle({
     end
 })
 
+MiscSection:AddButton({
+    Name = "Look at player's stats",
+    Callback = function()
+        loadstring(game:HttpGet("https://pastebin.com/raw/vwbxDc0u"))()
+    end
+})
+
 
 OverHeavenLib:MakeNotification({
     Name = "Project Jojo",
-    Content = "gotovo",
+    Content = "Pishki s oriz",
     Time = 5
 })
 
@@ -700,3 +726,293 @@ BypassSection:AddToggle({
         end
     end
 })
+
+-- Add Player functionality
+local PlayerSection = PlayerTab:AddSection({
+    Name = "Player Stats"
+})
+
+PlayerSection:AddTextbox({
+    Name = "Stand Power",
+    Default = "",
+    TextDisappear = false,
+    Placeholder = "Type here!",
+    Callback = function(Value)
+        game.Players.LocalPlayer.Power.Value = Value
+        game.Players.LocalPlayer.PowerStat.Value = Value
+    end
+})
+
+PlayerSection:AddTextbox({
+    Name = "Endurance",
+    Default = "",
+    TextDisappear = false,
+    Placeholder = "Type here!",
+    Callback = function(Value)
+        game.Players.LocalPlayer.Endurance.Value = Value
+        game.Players.LocalPlayer.EnduranceStat.Value = Value
+    end
+})
+
+PlayerSection:AddTextbox({
+    Name = "Special Stat",
+    Default = "",
+    TextDisappear = false,
+    Placeholder = "Type here!",
+    Callback = function(Value)
+        game.Players.LocalPlayer.Special.Value = Value
+        game.Players.LocalPlayer.SpecialStat.Value = Value
+    end
+})
+
+PlayerSection:AddLabel("Type Inf for infinite")
+
+PlayerSection:AddSlider({
+    Name = "Attack Speed",
+    Min = 1,
+    Max = 5,
+    Default = 1,
+    Color = Color3.fromRGB(0, 120, 255),
+    Increment = 0.1,
+    ValueName = "Speed",
+    Callback = function(Value)
+        game.Players.LocalPlayer.Speed.Value = Value
+    end
+})
+
+PlayerSection:AddButton({
+    Name = "Open Stand Storage",
+    Callback = function()
+        game.Players.LocalPlayer.PlayerGui.standstore.Enabled = true
+        game.Players.LocalPlayer.PlayerGui.standstore.Visible = true
+    end
+})
+
+PlayerSection:AddButton({
+    Name = "Open Shop",
+    Callback = function()
+        loadstring(game:HttpGet("https://pastebin.com/raw/4kPWmS7v", true))() 
+    end
+})
+
+PlayerSection:AddButton({
+    Name = "Kill Aura",
+    Callback = function()
+        local Count = 0
+        while true do
+            task.wait(0.2)
+            local A_1 = 99999999
+            local Event = game:GetService("ReplicatedStorage").Specials.throatslit
+            Event:FireServer(A_1)
+            Count = Count + 1
+        end
+    end
+})
+
+PlayerSection:AddButton({
+    Name = "Do an absurd amount of damage to everything near you",
+    Callback = function()
+        local A_1 = 999999999999999999999999999
+        local Event = game:GetService("ReplicatedStorage").Specials.throatslit
+        Event:FireServer(A_1)
+    end
+})
+
+-- Initialize the UI
+OverHeavenLib:Init()
+
+-- Add Teleports functionality
+local ItemTP = TeleportsTab:AddSection({
+    Name = "Item Teleports"
+})
+
+ItemTP:AddButton({
+    Name = "Teleport to Dio's Bone",
+    Callback = function()
+        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = workspace:WaitForChild("DioBone").CFrame
+    end
+})
+
+ItemTP:AddButton({
+    Name = "Teleport to Dio's Diary (Worthiness Version)",
+    Callback = function()
+        while task.wait(5) do
+            for _,v in pairs(game.Workspace:GetDescendants()) do
+                if string.find(v.Name, "DioDiary") and v:FindFirstChild("Handle") then
+                    v:FindFirstChild("Handle").Anchored = true
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.new(0,0,-2) * v:FindFirstChild("Handle").CFrame
+                end
+            end
+        end
+    end
+})
+
+ItemTP:AddButton({
+    Name = "Teleport to Ultimate Dummy",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(838.822571, 1029.94226, -1223.36951)
+    end
+})
+
+ItemTP:AddButton({
+    Name = "Teleport to Hyperspace Dummy",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1195.75085, 1049.79041, 5.64134359)
+    end
+})
+
+local QuestTP = TeleportsTab:AddSection({
+    Name = "Quest Teleports"
+})
+
+QuestTP:AddButton({
+    Name = "Teleport to quest: Exp is Power",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1916.55969, 875.011841, -222.287766)
+    end
+})
+
+QuestTP:AddButton({
+    Name = "Teleport to quest: Assault On Titans",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1072.45056, 875.22229, -754.062012, 0.852683008, 1.31428397e-08, -0.522428632, -3.29306005e-09, 1, 1.9782421e-08, 0.522428632, -1.51477462e-08, 0.852683008)
+    end
+})
+
+QuestTP:AddButton({
+    Name = "Teleport to quest: Hamon Hunt",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1164.27197, 875.449097, 96.3368378, -0.985683084, -5.59815305e-08, 0.168608442, -6.32552286e-08, 1, -3.77684692e-08, -0.168608442, -4.78931099e-08, -0.985683084)
+    end
+})
+
+QuestTP:AddButton({
+    Name = "Teleport to quest: Vampire Hunt",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1568.63184, 875.026978, -1139.93213, 0.90634042, -2.3473568e-08, -0.422548324, 1.2666816e-08, 1, -2.83828374e-08, 0.422548324, 2.03721715e-08, 0.90634042)
+    end
+})
+
+QuestTP:AddButton({
+    Name = "Teleport to quest: A Huge Issue",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1713.60144, 874.999939, -1161.75171, 0.874661446, -2.09152944e-08, -0.484734267, -2.88108755e-08, 1, -9.51347161e-08, 0.484734267, 9.71762901e-08, 0.874661446)
+    end
+})
+
+QuestTP:AddButton({
+    Name = "Teleport to quest: A giant problem",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1991.23816, 875, -1021.729, 0.878873348, 4.90018559e-09, -0.477055162, 1.59368856e-08, 1, 3.96320843e-08, 0.477055162, -4.24343547e-08, 0.878873348)
+    end
+})
+
+QuestTP:AddButton({
+    Name = "Teleport to quest: Attack on titans",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(788.899292, 875.71167, -528.016968, 0.135717228, -5.74621382e-08, 0.990747631, 2.70949059e-08, 1, 5.42871774e-08, -0.990747631, 1.94765075e-08, 0.135717228)
+    end
+})
+
+QuestTP:AddButton({
+    Name = "Teleport to quest: The reality Warper",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1138.2085, 874.999939, -168.800003, -0.983227015, -6.46937295e-08, -0.182385802, -6.85475854e-08, 1, 1.48263029e-08, 0.182385802, 2.70797287e-08, -0.983227015)
+    end
+})
+
+local NPCTP = TeleportsTab:AddSection({
+    Name = "NPC Teleports"
+})
+
+NPCTP:AddButton({
+    Name = "Rohan",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1621.55139, 875.061462, -969.720886, -0.00856200326, -2.00013144e-08, -0.999963343, 1.70892589e-09, 1, -2.00166799e-08, 0.999963343, -1.88024618e-09, -0.00856200326)
+    end
+})
+
+NPCTP:AddButton({
+    Name = "Jotaro",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1905.40637, 875, -1295.20142, -0.898807049, 1.11613012e-08, 0.438344449, 3.67894124e-08, 1, 4.99727619e-08, -0.438344449, 6.10423072e-08, -0.898807049)
+    end
+})
+
+NPCTP:AddButton({
+    Name = "Stroheim",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1657.61694, 875.168945, -919.496216, -0.579595625, 3.34473924e-08, -0.814904213, 3.86727272e-08, 1, 1.35388287e-08, 0.814904213, -2.36675248e-08, -0.579595625)
+    end
+})
+
+NPCTP:AddButton({
+    Name = "Zeppeli",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace["Zeppeli"].Head.CFrame
+    end
+})
+
+NPCTP:AddButton({
+    Name = "Caesar",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace["Caesar"].Head.CFrame
+    end
+})
+
+local PlacesTP = TeleportsTab:AddSection({
+    Name = "Places Teleports"
+})
+
+PlacesTP:AddButton({
+    Name = "Teleport to shop",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1518.72522, 875.027283, -425.667816)
+    end
+})
+
+PlacesTP:AddButton({
+    Name = "Teleport to DIO's Spawn",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1361.4696, 875.011536, -200.33252, -0.999659121, 1.14996306e-08, 0.026108034, 1.44327688e-08, 1, 1.12157757e-07, -0.026108034, 1.12496338e-07, -0.999659121)
+    end
+})
+
+PlacesTP:AddButton({
+    Name = "Teleport to Kira's Spawn",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1092.9906, 875.011597, -1060.41321, 0.917077363, -6.4417172e-08, 0.398709238, 3.527283e-08, 1, 8.04326845e-08, -0.398709238, -5.96993956e-08, 0.917077363)
+    end
+})
+
+PlacesTP:AddButton({
+    Name = "Teleport to Gas Station",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1561.05432, 875.711853, -1121.32532)
+    end
+})
+
+-- Re-initialize the UI to ensure new tab is properly rendered
+OverHeavenLib:Init()
+
+-- Add Worlds functionality
+local WorldsSection = WorldsTab:AddSection({
+    Name = "World Teleportation"
+})
+
+WorldsSection:AddButton({
+    Name = "Go to Italy",
+    Callback = function()
+        game:GetService("TeleportService"):Teleport(2731332132, game.Players.LocalPlayer)
+    end
+})
+
+WorldsSection:AddButton({
+    Name = "Go to Morioh",
+    Callback = function()
+        game:GetService("TeleportService"):Teleport(2295122555, game.Players.LocalPlayer)
+    end
+})
+
+-- Re-initialize the UI once more to ensure all tabs render correctly
+OverHeavenLib:Init()
